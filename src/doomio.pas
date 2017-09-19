@@ -61,6 +61,7 @@ private
   record
     Width  : Integer;
     Height : Integer;
+    BPP    : Integer;
     FMult  : Integer;
     TMult  : Integer;
     MiniM  : Integer;
@@ -103,7 +104,7 @@ uses video, vlog, vdebug,
      vuiconsole, vcolor,
      vtextio, vtextconsole,
      vsdlio, vglconsole,
-     vgllibrary, vglulibrary,
+     vgllibrary,
      doomtextures,  doombase,
      dfdata, dfoutput, dfplayer;
 
@@ -126,6 +127,7 @@ var iStyle      : TUIStyle;
     begin
       Width  := Config.Configure( aPrefix+'Width', aDef.X );
       Height := Config.Configure( aPrefix+'Height', aDef.Y );
+      BPP    := Config.Configure( aPrefix+'BPP', 16 );
       FMult  := Config.Configure( aPrefix+'FontMult', -1 );
       TMult  := Config.Configure( aPrefix+'TileMult', -1 );
       MiniM  := Config.Configure( aPrefix+'MiniMapSize', -1 );
@@ -160,6 +162,7 @@ begin
   FPostSheet := nil;
   Textures   := nil;
 
+
   if GraphicsVersion then
   begin
     {$IFDEF WINDOWS}
@@ -190,7 +193,7 @@ begin
     begin
       iSDLFlags := [ SDLIO_OpenGL ];
       if iFullscreen then Include( iSDLFlags, SDLIO_Fullscreen );
-      FIODriver := TSDLIODriver.Create( Width, Height, 32, iSDLFlags );
+      FIODriver := TSDLIODriver.Create( Width, Height, BPP, iSDLFlags );
       FFontMult := FMult;
       FTileMult := TMult;
       FMiniScale:= MiniM;
@@ -217,8 +220,7 @@ begin
     CalculateConsoleParams;
     FConsole := TGLConsoleRenderer.Create( iFont, 80, 25, FLineSpace, [VIO_CON_CURSOR] );
     TGLConsoleRenderer( FConsole ).SetPositionScale( (FIODriver.GetSizeX - 80*10*FFontMult) div 2, 0, FLineSpace, FFontMult );
-    LoadGLU;
-    gluOrtho2D(0, FIODriver.GetSizeX, FIODriver.GetSizeY,0 );
+    glOrtho(0, FIODriver.GetSizeX, FIODriver.GetSizeY,0, -1, 1 );
     SpriteMap  := TDoomSpriteMap.Create;
     FQuadSheet := TGLQuadSheet.Create;
     FTextSheet := TGLQuadSheet.Create;
@@ -454,7 +456,7 @@ begin
   begin
     iSDLFlags := [ SDLIO_OpenGL ];
     if not TSDLIODriver(FIODriver).FullScreen then Include( iSDLFlags, SDLIO_Fullscreen );
-    TSDLIODriver(FIODriver).ResetVideoMode( Width, Height, 32, iSDLFlags );
+    TSDLIODriver(FIODriver).ResetVideoMode( Width, Height, BPP, iSDLFlags );
     FTileMult := TMult;
     FFontMult := FMult;
     FMiniScale:= MiniM;
@@ -614,7 +616,7 @@ begin
   glMatrixMode( GL_PROJECTION );
   glPushMatrix();
   glLoadIdentity();
-  gluOrtho2D(0, iSizeX, iSizeY, 0);
+  glOrtho(0, iSizeX, iSizeY, 0, -1, 1);
 
   glMatrixMode( GL_MODELVIEW );
   glPushMatrix();
@@ -637,7 +639,7 @@ begin
   glMatrixMode( GL_PROJECTION );
   glPushMatrix();
   glLoadIdentity();
-  gluOrtho2D( 0, iSizeX, iSizeY, 0);
+  glOrtho( 0, iSizeX, iSizeY, 0, -1, 1);
   glMatrixMode( GL_MODELVIEW );
   glPushMatrix();
   glLoadIdentity();
@@ -828,6 +830,9 @@ begin
      'DoomRL - Fatal Error!', MB_OK or MB_ICONERROR );
   end
   else
+  {$ENDIF}
+  {$IFDEF ANDROID}
+  Logger.Log(LOGERROR, 'DoomRL crashed! Reason: '+aInfo);
   {$ENDIF}
   begin
     DoneVideo;
