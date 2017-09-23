@@ -93,11 +93,12 @@ uses math, vmath, viotypes, vgllibrary, vvision,
      doomtextures, doomio, doombase,
      dfoutput, dfmap, dfitem, dfbeing, dfplayer;
 
-function ColorToGL( aColor : TColor ) : TGLVec3b;
+function ColorToGL( aColor : TColor ) : TGLVec4b;
 begin
   ColorToGL.X := aColor.R;
   ColorToGL.Y := aColor.G;
   ColorToGL.Z := aColor.B;
+  ColorToGL.W := aColor.A;
 end;
 
 { TDoomMouseCursor }
@@ -390,10 +391,10 @@ begin
   end;
 
   {$WARNINGS OFF}
-  iColors.Data[0] := TGLVec3b.CreateAll( FLightMap[aX-1,aY-1] );
-  iColors.Data[1] := TGLVec3b.CreateAll( FLightMap[aX-1,aY  ] );
-  iColors.Data[2] := TGLVec3b.CreateAll( FLightMap[aX  ,aY  ] );
-  iColors.Data[3] := TGLVec3b.CreateAll( FLightMap[aX  ,aY-1] );
+  iColors.Data[0] := TGLVec4b.CreateAll( FLightMap[aX-1,aY-1] );
+  iColors.Data[1] := TGLVec4b.CreateAll( FLightMap[aX-1,aY  ] );
+  iColors.Data[2] := TGLVec4b.CreateAll( FLightMap[aX  ,aY  ] );
+  iColors.Data[3] := TGLVec4b.CreateAll( FLightMap[aX  ,aY-1] );
   {$WARNINGS ON}
 
   ip := TGLVec2i.Create( (aX-1)*FTileSize, (aY-1)*FTileSize );
