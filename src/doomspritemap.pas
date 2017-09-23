@@ -131,7 +131,7 @@ begin
   glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 
   glBindTexture( GL_TEXTURE_2D, Textures[ FTextureID ].GLTexture );
-  glVertexPointer( 2, GL_INT, 0, @(FCoord) );
+  glVertexPointer( 2, GL_SHORT, 0, @(FCoord) );
   glTexCoordPointer( 2, GL_FLOAT, 0, @(FTexCoord) );
   glDrawArrays( GL_QUADS, 0, 4 );
 
