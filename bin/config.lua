@@ -46,6 +46,8 @@ WindowedTileMult    = 1
 -- minimap size multiplication, set to 0 to remove minimap, -1 is auto
 -- choice based on resolution
 WindowedMiniMapSize = -1
+-- bits per pixel
+WindowedBPP         = 32
 
 -- Fullscreen resolution sizes
 -- -1 means auto-detection of screen size, and fontmult and tilemult and 
@@ -55,6 +57,7 @@ FullscreenHeight      = -1
 FullscreenFontMult    = -1
 FullscreenTileMult    = -1
 FullscreenMiniMapSize = -1
+FullscreenBPP         = 32
 
 -- Whether to allow high-ASCII signs. Set to false if you see weird signs 
 -- on the screen. Not setting it at all will use the default which

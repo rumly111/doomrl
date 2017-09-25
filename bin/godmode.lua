@@ -31,6 +31,7 @@ WindowedHeight   = 600
 -- Multiplication values of font and tile display - use at most 2
 WindowedFontMult = 1
 WindowedTileMult = 1
+WindowedBPP      = 32
 
 -- Fullscreen resolution sizes
 -- -1 means auto-detection of screen size, and fontmult and tilemult based on it
@@ -38,6 +39,7 @@ FullscreenWidth    = -1
 FullscreenHeight   = -1
 FullscreenFontMult = -1
 FullscreenTileMult = -1
+FullscreenBPP      = 32
 
 -- Whether to allow high-ASCII signs. Set to false if you see weird signs 
 -- on the screen.
