@@ -474,7 +474,11 @@ function TDoomGameUI.OnMouseMove ( const event : TIOMouseMoveEvent ) : Boolean;
 begin
   if IO.MCursor <> nil then IO.MCursor.Active := True;
   FLastMouse := FTime;
+{$IFDEF ANDROID}
+  FMouseLock := True;
+{$ELSE}
   FMouseLock := False;
+{$ENDIF}
   Exit( False );
 end;
 
