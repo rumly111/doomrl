@@ -133,7 +133,7 @@ begin
   glBindTexture( GL_TEXTURE_2D, Textures[ FTextureID ].GLTexture );
   glVertexPointer( 2, GL_SHORT, 0, @(FCoord) );
   glTexCoordPointer( 2, GL_FLOAT, 0, @(FTexCoord) );
-  glDrawArrays( GL_QUADS, 0, 4 );
+  glDrawArrays( GL_TRIANGLES, 0, 6 );
 
   glDisableClientState( GL_VERTEX_ARRAY );
   glDisableClientState( GL_TEXTURE_COORD_ARRAY );
@@ -319,7 +319,9 @@ begin
   iCoord.Data[ 0 ] := Rotated( -iSizeH, -iSizeH );
   iCoord.Data[ 1 ] := Rotated( -iSizeH, +iSizeH );
   iCoord.Data[ 2 ] := Rotated( +iSizeH, +iSizeH );
-  iCoord.Data[ 3 ] := Rotated( +iSizeH, -iSizeH );
+  iCoord.Data[ 3 ] := Rotated( +iSizeH, +iSizeH );
+  iCoord.Data[ 4 ] := Rotated( +iSizeH, -iSizeH );
+  iCoord.Data[ 5 ] := Rotated( -iSizeH, -iSizeH );
 
   iTP := TGLVec2f.CreateModDiv( (aSprite.SpriteID-1), FSpriteEngine.FSpriteRowCount );
 
@@ -394,7 +396,9 @@ begin
   iColors.Data[0] := TGLVec4b.CreateAll( FLightMap[aX-1,aY-1] );
   iColors.Data[1] := TGLVec4b.CreateAll( FLightMap[aX-1,aY  ] );
   iColors.Data[2] := TGLVec4b.CreateAll( FLightMap[aX  ,aY  ] );
-  iColors.Data[3] := TGLVec4b.CreateAll( FLightMap[aX  ,aY-1] );
+  iColors.Data[3] := TGLVec4b.CreateAll( FLightMap[aX  ,aY  ] );
+  iColors.Data[4] := TGLVec4b.CreateAll( FLightMap[aX  ,aY-1] );
+  iColors.Data[5] := TGLVec4b.CreateAll( FLightMap[aX-1,aY-1] );
   {$WARNINGS ON}
 
   ip := TGLVec2i.Create( (aX-1)*FTileSize, (aY-1)*FTileSize );
@@ -404,12 +408,13 @@ begin
 
     if aSprite.CosColor and FCosActive and (Cosplay <> nil) then
     begin
-      for i := 0 to 3 do
+      for i := 0 to 5 do
       begin
         // TODO : This should be one line!
         iColors.Data[ i ].X := Clamp( Floor( ( aSprite.Color.R / 255 ) * iColors.Data[ i ].X  ), 0, 255 );
         iColors.Data[ i ].Y := Clamp( Floor( ( aSprite.Color.G / 255 ) * iColors.Data[ i ].Y  ), 0, 255 );
         iColors.Data[ i ].Z := Clamp( Floor( ( aSprite.Color.B / 255 ) * iColors.Data[ i ].Z  ), 0, 255 );
+        //iColors.Data[ i ].W := 255;
       end;
       Cosplay.PushXY( aSprite.SpriteID, iSize, ip, @iColors, aTSX, aTSY );
     end;
