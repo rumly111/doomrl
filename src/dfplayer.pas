@@ -752,7 +752,20 @@ try
       then iCommand := DirectionToCommand( NewDirection( FPosition, IO.MTarget ) )
       else if iLevel.isExplored( IO.MTarget ) then
       begin
-        if FPath.Run( FPosition, IO.MTarget, 200) then
+        if (iLevel.Being[IO.MTarget] <> nil) and (not iLevel.Being[IO.MTarget].Dead) then
+        begin
+          iCommand := COMMAND_YIELD;
+          if (Inv.Slot[ efWeapon ] <> nil) and (Inv.Slot[ efWeapon ].isRanged) then
+            if (Inv.Slot[ efWeapon ].Ammo = 0) and (not Inv.Slot[efWeapon].GetFlag(IF_NOAMMO)) then
+              if iAlt
+                then ActionAltReload
+                else ActionReload
+            else
+              if iAlt
+                then ActionAltFire( False, IO.MTarget, Inv.Slot[ efWeapon ] )
+                else ActionFire( False, IO.MTarget, Inv.Slot[ efWeapon ] );
+        end
+        else if FPath.Run( FPosition, IO.MTarget, 200) then
         begin
           FPath.Start := FPath.Start.Child;
           FRun.Active := True;
