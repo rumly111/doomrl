@@ -473,7 +473,8 @@ end;
 
 function TMainMenuViewer.OnMouseDown ( const event : TIOMouseEvent ) : Boolean;
 begin
-  if (FMode = MenuModeLogo) and (event.Button in [ VMB_BUTTON_LEFT, VMB_BUTTON_RIGHT ]) then
+  if (FMode in [ MenuModeFirst, MenuModeLogo, MenuModeDonator ]) and
+     (event.Button in [ VMB_BUTTON_LEFT, VMB_BUTTON_RIGHT ]) then
   begin
     Free;
     Exit( True );
