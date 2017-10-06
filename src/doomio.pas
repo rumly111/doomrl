@@ -633,16 +633,10 @@ begin
     SpriteMap.Draw;
   end;
 
-  iSizeY    := FIODriver.GetSizeY-2*FVPadding;
-  iSizeX    := FIODriver.GetSizeX;
-  glViewport( 0, FVPadding, iSizeX, iSizeY );
   glMatrixMode( GL_PROJECTION );
-  glPushMatrix();
-  glLoadIdentity();
-  glOrtho( 0, iSizeX, iSizeY, 0, -1, 1);
+  glPopMatrix();
   glMatrixMode( GL_MODELVIEW );
-  glPushMatrix();
-  glLoadIdentity();
+  glPopMatrix();
 end;
 
 function TDoomIO.GetCommand : Byte;
