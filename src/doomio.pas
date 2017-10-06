@@ -127,7 +127,7 @@ var iStyle      : TUIStyle;
     begin
       Width  := Config.Configure( aPrefix+'Width', aDef.X );
       Height := Config.Configure( aPrefix+'Height', aDef.Y );
-      BPP    := Config.Configure( aPrefix+'BPP', 16 );
+      BPP    := Config.Configure( aPrefix+'BPP', 32 );
       FMult  := Config.Configure( aPrefix+'FontMult', -1 );
       TMult  := Config.Configure( aPrefix+'TileMult', -1 );
       MiniM  := Config.Configure( aPrefix+'MiniMapSize', -1 );
