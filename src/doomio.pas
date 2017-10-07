@@ -95,6 +95,11 @@ procedure EmitCrashInfo( const aInfo : AnsiString; aInGame : Boolean  );
 
 implementation
 
+{$IFDEF ANDROID}
+{$MACRO ON}
+{$DEFINE glOrtho:=glOrthof}
+{$ENDIF}
+
 uses video, vlog, vdebug,
      variants, vdf, dateutils,
      vutil,
