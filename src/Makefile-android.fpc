@@ -1,0 +1,43 @@
+# Regenerate on michalis.ii by
+#   fpcmake -Ti386-linux,i386-win32
+# That is, you want Makefile to support *at least* these two targets.
+
+[target]
+programs=$(PROGRAMS)
+
+[prerules]
+VALKYRIEPATH := ../../fpcvalkyrie
+
+ifeq ($(CPU_TARGET),i386)
+ANDROID_ABI=x86
+else
+ifeq ($(CPU_TARGET),arm)
+ANDROID_ABI=armeabi
+else
+ANDROID_ABI=$(CPU_TARGET)
+endif
+endif
+
+ifeq ($(OS_TARGET),android)
+TARGET_DIR=/home/rumly/Development/AndroidStudioProjects/JavaSDL/app/libs/$(ANDROID_ABI)
+PROGRAMS=application
+else
+TARGET_DIR=../bin
+PROGRAMS=doomrl
+endif
+
+
+[require]
+packages=
+
+[install]
+fpcpackage=n
+
+[compiler]
+unitdir=$(VALKYRIEPATH)/src $(VALKYRIEPATH)/libs
+unittargetdir=/tmp/doomrl/$(CPU_TARGET)-$(OS_TARGET)
+# options="-O2 -S2 -Sc -Si"
+options="-dLUA_DYNAMIC"
+targetdir=$(TARGET_DIR)
+version=2.2.4
+
