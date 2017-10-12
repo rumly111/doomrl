@@ -461,7 +461,11 @@ begin
   begin
     iSDLFlags := [ SDLIO_OpenGL ];
     if not TSDLIODriver(FIODriver).FullScreen then Include( iSDLFlags, SDLIO_Fullscreen );
+    {$IFDEF USE_SDL2}
+    TSDLIODriver(FIODriver).ToggleFullScreen( Width, Height );
+    {$ELSE}
     TSDLIODriver(FIODriver).ResetVideoMode( Width, Height, BPP, iSDLFlags );
+    {$ENDIF}
     FTileMult := TMult;
     FFontMult := FMult;
     FMiniScale:= MiniM;
